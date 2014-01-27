@@ -9,7 +9,7 @@
 
 namespace eZ\Publish\Core\Persistence\InMemory\Tests;
 
-use eZ\Publish\API\Repository\Values\Content\Query;
+use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 
 /**
@@ -24,7 +24,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
      * @covers \eZ\Publish\Core\Persistence\InMemory\LocationSearchHandler::findLocations
      * @group locationSearchHandler
      */
-    public function testFindLocations( Query $query, $results )
+    public function testFindLocations( LocationQuery $query, $results )
     {
         $locations = $this->persistenceHandler->locationSearchHandler()->findLocations( $query );
         usort(
@@ -51,7 +51,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
     {
         return array(
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\ParentLocationId( 1 )
                     )
@@ -63,7 +63,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\ContentId( 54 )
                     )
@@ -71,7 +71,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 array( array( "id" => 56, "contentId" => 54 ) )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LocationRemoteId( "locationRemote1" )
                     )
@@ -79,7 +79,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 array( array( "id" => 55, "remoteId" => "locationRemote1" ) )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\SectionId( 3 )
                     )
@@ -90,7 +90,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\RemoteId( "contentRemote1" )
                     )
@@ -100,7 +100,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\ContentTypeId( 3 )
                     )
@@ -113,7 +113,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\ContentTypeIdentifier( "user_group" )
                     )
@@ -126,7 +126,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\ContentTypeGroupId( 2 )
                     )
@@ -139,7 +139,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\ParentLocationId( 54 )
                     )
@@ -147,7 +147,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 array( array( "id" => 55, "parentId" => 54 ) )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LocationId( 55 )
                     )
@@ -155,7 +155,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 array( array( "id" => 55 ) )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
@@ -168,7 +168,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 array( array( "id" => 55, "parentId" => 54, "remoteId" => "locationRemote1" ) )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
@@ -186,7 +186,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 array( array( "id" => 55, "parentId" => 54, "remoteId" => "locationRemote1" ) )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
@@ -204,7 +204,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 array( array( "id" => 55, "parentId" => 54, "remoteId" => "locationRemote1" ) )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
@@ -222,7 +222,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 array()
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
@@ -235,7 +235,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 array()
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
@@ -250,7 +250,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
@@ -268,7 +268,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LogicalOr(
                             array(
@@ -282,7 +282,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 array( array( "id" => 55, "parentId" => 54, "remoteId" => "locationRemote1" ) )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LogicalOr(
                             array(
@@ -303,7 +303,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LogicalOr(
                             array(
@@ -318,7 +318,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\Subtree(
                             "/1/2/"
@@ -334,7 +334,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
@@ -356,7 +356,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                 )
             ),
             array(
-                new Query(
+                new LocationQuery(
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(

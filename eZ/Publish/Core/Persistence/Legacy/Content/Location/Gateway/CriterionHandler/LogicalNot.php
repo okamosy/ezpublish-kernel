@@ -1,6 +1,6 @@
 <?php
 /**
- * File containing the EzcDatabase parent location id criterion handler class
+ * File containing the EzcDatabase logical not criterion handler class
  *
  * @copyright Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
  * @license http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
@@ -15,20 +15,20 @@ use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
 use ezcQuerySelect;
 
 /**
- * Parent location id criterion handler
+ * Logical not criterion handler
  */
-class ParentLocationId extends CriterionHandler
+class LogicalNot extends CriterionHandler
 {
     /**
      * Check if this criterion handler accepts to handle the given criterion.
      *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion$criterion
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
      *
      * @return boolean
      */
     public function accept( Criterion $criterion )
     {
-        return $criterion instanceof Criterion\ParentLocationId;
+        return $criterion instanceof Criterion\LogicalNot;
     }
 
     /**
@@ -38,16 +38,14 @@ class ParentLocationId extends CriterionHandler
      *
      * @param \eZ\Publish\Core\Persistence\Legacy\Content\Location\Gateway\CriteriaConverter $converter
      * @param \ezcQuerySelect $query
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion$criterion
+     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
      *
      * @return \ezcQueryExpression
      */
     public function handle( CriteriaConverter $converter, ezcQuerySelect $query, Criterion $criterion )
     {
-        return $query->expr->in(
-            $this->dbHandler->quoteColumn( 'parent_node_id' ),
-            $criterion->value
+        return $query->expr->not(
+            $converter->convertCriteria( $query, $criterion->criteria[0] )
         );
     }
 }
-

@@ -7,7 +7,7 @@
  * @version //autogentag//
  */
 
-namespace eZ\Publish\Core\Persistence\Legacy\Content\Location\Gateway\SortClauseHandler;
+namespace eZ\Publish\Core\Persistence\Legacy\Content\Location\Gateway\SortClauseHandler\Location;
 
 use eZ\Publish\Core\Persistence\Legacy\Content\Location\Gateway\SortClauseHandler;
 use eZ\Publish\API\Repository\Values\Content\Query\SortClause;
@@ -16,7 +16,7 @@ use ezcQuerySelect;
 /**
  * Content locator gateway implementation using the zeta database component.
  */
-class LocationPathString extends SortClauseHandler
+class Visibility extends SortClauseHandler
 {
     /**
      * Check if this sort clause handler accepts to handle the given sort clause.
@@ -27,7 +27,7 @@ class LocationPathString extends SortClauseHandler
      */
     public function accept( SortClause $sortClause )
     {
-        return $sortClause instanceof SortClause\LocationPathString;
+        return $sortClause instanceof SortClause\Location\Visibility;
     }
 
     /**
@@ -48,8 +48,8 @@ class LocationPathString extends SortClauseHandler
             ->select(
                 $query->alias(
                     $this->dbHandler->quoteColumn(
-                        "path_string",
-                        "ezcontentobject_tree"
+                        'is_invisible',
+                        'ezcontentobject_tree'
                     ),
                     $column = $this->getSortColumnName( $number )
                 )
@@ -58,4 +58,3 @@ class LocationPathString extends SortClauseHandler
         return $column;
     }
 }
-
