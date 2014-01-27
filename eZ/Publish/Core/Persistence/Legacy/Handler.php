@@ -279,6 +279,11 @@ class Handler implements HandlerInterface
     protected $transformationProcessor;
 
     /**
+     * @var \eZ\Publish\Core\Persistence\Legacy\Content\Search\Gateway\CriterionHandler\FieldValue\Converter
+     */
+    protected $criterionFieldValueConverter;
+
+    /**
      * General configuration
      *
      * @var array
