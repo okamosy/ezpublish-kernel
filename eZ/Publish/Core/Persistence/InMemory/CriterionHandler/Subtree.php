@@ -27,7 +27,7 @@ class Subtree extends CriterionHandler
      */
     public function accept( Criterion $criterion )
     {
-        return $criterion instanceof Criterion\Subtree;
+        return $criterion instanceof Criterion\Location\Subtree;
     }
 
     /**

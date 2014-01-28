@@ -27,7 +27,7 @@ class LocationRemoteId extends CriterionHandler
      */
     public function accept( Criterion $criterion )
     {
-        return $criterion instanceof Criterion\LocationRemoteId;
+        return $criterion instanceof Criterion\Location\RemoteId;
     }
 
     /**

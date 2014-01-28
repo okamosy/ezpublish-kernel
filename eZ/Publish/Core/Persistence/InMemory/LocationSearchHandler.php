@@ -12,6 +12,8 @@ namespace eZ\Publish\Core\Persistence\InMemory;
 use eZ\Publish\SPI\Persistence\Content\Location\Search\Handler as LocationSearchHandlerInterface;
 use eZ\Publish\API\Repository\Values\Content\LocationQuery;
 use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
+use eZ\Publish\API\Repository\Values\Content\Search\SearchResult;
+use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
 
 /**
  * @see eZ\Publish\SPI\Persistence\Content\Location\Search\Handler
@@ -64,23 +66,36 @@ class LocationSearchHandler implements LocationSearchHandlerInterface
      */
     public function findLocations( LocationQuery $query )
     {
+        $start = microtime( true );
         $match = $excludeMatch = array();
         $this->convertCriteria( $query->filter, $match, $excludeMatch );
 
+        $result = new SearchResult();
         if ( $match === false )
         {
-            return array();
+            return $result;
         }
 
-        return array_slice(
-            $this->backend->find(
-                'Content\\Location',
-                $match,
-                $excludeMatch
-            ),
+        $allLocations = $this->backend->find(
+            'Content\\Location',
+            $match,
+            $excludeMatch
+        );
+        $result->time = microtime( true ) - $start;
+        $result->totalCount = count( $allLocations );
+
+        $pageLocations = array_slice(
+            $allLocations,
             $query->offset,
             $query->limit
         );
+
+        foreach ( $pageLocations as $location )
+        {
+            $result->searchHits[] = new SearchHit( array( "valueObject" => $location ) );
+        }
+
+        return $result;
     }
 
     /**

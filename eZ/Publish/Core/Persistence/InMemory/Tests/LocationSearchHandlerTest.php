@@ -26,7 +26,12 @@ class LocationSearchHandlerTest extends LocationHandlerTest
      */
     public function testFindLocations( LocationQuery $query, $results )
     {
-        $locations = $this->persistenceHandler->locationSearchHandler()->findLocations( $query );
+        $result = $this->persistenceHandler->locationSearchHandler()->findLocations( $query );
+        $locations = array();
+        foreach ( $result->searchHits as $searchHit )
+        {
+            $locations[] = $searchHit->valueObject;
+        }
         usort(
             $locations,
             function ( $a, $b )
@@ -53,7 +58,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
             array(
                 new LocationQuery(
                     array(
-                        "filter" => new Criterion\ParentLocationId( 1 )
+                        "filter" => new Criterion\Location\ParentLocationId( 1 )
                     )
                 ),
                 array(
@@ -73,7 +78,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
             array(
                 new LocationQuery(
                     array(
-                        "filter" => new Criterion\LocationRemoteId( "locationRemote1" )
+                        "filter" => new Criterion\Location\RemoteId( "locationRemote1" )
                     )
                 ),
                 array( array( "id" => 55, "remoteId" => "locationRemote1" ) )
@@ -141,7 +146,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
             array(
                 new LocationQuery(
                     array(
-                        "filter" => new Criterion\ParentLocationId( 54 )
+                        "filter" => new Criterion\Location\ParentLocationId( 54 )
                     )
                 ),
                 array( array( "id" => 55, "parentId" => 54 ) )
@@ -149,7 +154,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
             array(
                 new LocationQuery(
                     array(
-                        "filter" => new Criterion\LocationId( 55 )
+                        "filter" => new Criterion\Location\Id( 55 )
                     )
                 ),
                 array( array( "id" => 55 ) )
@@ -159,8 +164,8 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
-                                new Criterion\LocationRemoteId( "locationRemote1" ),
-                                new Criterion\ParentLocationId( 54 )
+                                new Criterion\Location\RemoteId( "locationRemote1" ),
+                                new Criterion\Location\ParentLocationId( 54 )
                             )
                         )
                     )
@@ -174,11 +179,11 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                             array(
                                 new Criterion\LogicalAnd(
                                     array(
-                                        new Criterion\LocationRemoteId( "locationRemote1" ),
-                                        new Criterion\ParentLocationId( 54 )
+                                        new Criterion\Location\RemoteId( "locationRemote1" ),
+                                        new Criterion\Location\ParentLocationId( 54 )
                                     )
                                 ),
-                                new Criterion\ParentLocationId( 54 )
+                                new Criterion\Location\ParentLocationId( 54 )
                             )
                         )
                     )
@@ -190,11 +195,11 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
-                                new Criterion\LocationId( 55 ),
+                                new Criterion\Location\Id( 55 ),
                                 new Criterion\LogicalAnd(
                                     array(
-                                        new Criterion\LocationRemoteId( "locationRemote1" ),
-                                        new Criterion\ParentLocationId( 54 )
+                                        new Criterion\Location\RemoteId( "locationRemote1" ),
+                                        new Criterion\Location\ParentLocationId( 54 )
                                     )
                                 )
                             )
@@ -208,11 +213,11 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
-                                new Criterion\LocationId( 54 ),
+                                new Criterion\Location\Id( 54 ),
                                 new Criterion\LogicalAnd(
                                     array(
-                                        new Criterion\LocationRemoteId( "locationRemote1" ),
-                                        new Criterion\ParentLocationId( 54 )
+                                        new Criterion\Location\RemoteId( "locationRemote1" ),
+                                        new Criterion\Location\ParentLocationId( 54 )
                                     )
                                 )
                             )
@@ -226,8 +231,8 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
-                                new Criterion\LocationRemoteId( "locationRemote0" ),
-                                new Criterion\ParentLocationId( 54 )
+                                new Criterion\Location\RemoteId( "locationRemote0" ),
+                                new Criterion\Location\ParentLocationId( 54 )
                             )
                         )
                     )
@@ -239,8 +244,8 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
-                                new Criterion\ParentLocationId( 1 ),
-                                new Criterion\LocationId( 43 ),
+                                new Criterion\Location\ParentLocationId( 1 ),
+                                new Criterion\Location\Id( 43 ),
                             )
                         )
                     )
@@ -254,9 +259,9 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
-                                new Criterion\ParentLocationId( 1 ),
-                                new Criterion\ParentLocationId( 1 ),
-                                new Criterion\ParentLocationId( 1 ),
+                                new Criterion\Location\ParentLocationId( 1 ),
+                                new Criterion\Location\ParentLocationId( 1 ),
+                                new Criterion\Location\ParentLocationId( 1 ),
                             )
                         )
                     )
@@ -272,9 +277,9 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                     array(
                         "filter" => new Criterion\LogicalOr(
                             array(
-                                new Criterion\LocationRemoteId( "locationRemote1" ),
-                                new Criterion\ParentLocationId( 54 ),
-                                new Criterion\LocationRemoteId( "ARemoteIdThatDoesNotExist" ),
+                                new Criterion\Location\RemoteId( "locationRemote1" ),
+                                new Criterion\Location\ParentLocationId( 54 ),
+                                new Criterion\Location\RemoteId( "ARemoteIdThatDoesNotExist" ),
                             )
                         )
                     )
@@ -286,11 +291,11 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                     array(
                         "filter" => new Criterion\LogicalOr(
                             array(
-                                new Criterion\LocationRemoteId( "locationRemote0" ),
+                                new Criterion\Location\RemoteId( "locationRemote0" ),
                                 new Criterion\LogicalOr(
                                     array(
-                                        new Criterion\LocationRemoteId( "locationRemote1" ),
-                                        new Criterion\ParentLocationId( 54 ),
+                                        new Criterion\Location\RemoteId( "locationRemote1" ),
+                                        new Criterion\Location\ParentLocationId( 54 ),
                                     )
                                 )
                             )
@@ -307,8 +312,8 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                     array(
                         "filter" => new Criterion\LogicalOr(
                             array(
-                                new Criterion\LocationRemoteId( "locationRemote1" ),
-                                new Criterion\LocationRemoteId( "ARemoteIdThatDoesNotExist" ),
+                                new Criterion\Location\RemoteId( "locationRemote1" ),
+                                new Criterion\Location\RemoteId( "ARemoteIdThatDoesNotExist" ),
                             )
                         )
                     )
@@ -320,7 +325,7 @@ class LocationSearchHandlerTest extends LocationHandlerTest
             array(
                 new LocationQuery(
                     array(
-                        "filter" => new Criterion\Subtree(
+                        "filter" => new Criterion\Location\Subtree(
                             "/1/2/"
                         )
                     )
@@ -338,11 +343,11 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                     array(
                         "filter" => new Criterion\LogicalAnd(
                             array(
-                                new Criterion\Subtree(
+                                new Criterion\Location\Subtree(
                                     "/1/2/"
                                 ),
                                 new Criterion\LogicalNot(
-                                    new Criterion\LocationRemoteId( "locationRemote1" )
+                                    new Criterion\Location\RemoteId( "locationRemote1" )
                                 ),
                             )
                         )
@@ -361,12 +366,12 @@ class LocationSearchHandlerTest extends LocationHandlerTest
                         "filter" => new Criterion\LogicalAnd(
                             array(
                                 new Criterion\LogicalNot(
-                                    new Criterion\Subtree(
+                                    new Criterion\Location\Subtree(
                                         "/1/2/"
                                     )
                                 ),
                                 new Criterion\LogicalNot(
-                                    new Criterion\Subtree(
+                                    new Criterion\Location\Subtree(
                                         "/1/5/"
                                     )
                                 ),
