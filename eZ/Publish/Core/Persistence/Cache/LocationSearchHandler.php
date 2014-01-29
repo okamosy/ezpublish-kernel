@@ -28,17 +28,4 @@ class LocationSearchHandler extends AbstractHandler implements LocationSearchHan
         $this->logger->logCall( __METHOD__, array( 'query' => $query ) );
         return $this->persistenceFactory->getLocationSearchHandler()->findLocations( $query );
     }
-
-    /**
-     * Counts all locations given some $criterion.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
-     *
-     * @return int
-     */
-    public function getLocationCount( Criterion $criterion )
-    {
-        $this->logger->logCall( __METHOD__, array( 'criterion' => $criterion ) );
-        return $this->persistenceFactory->getLocationSearchHandler()->getLocationCount( $criterion );
-    }
 }

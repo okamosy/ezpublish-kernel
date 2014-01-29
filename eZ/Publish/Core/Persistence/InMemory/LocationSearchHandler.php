@@ -98,30 +98,6 @@ class LocationSearchHandler implements LocationSearchHandlerInterface
         return $result;
     }
 
-    /**
-     * Counts all locations given some $criterion.
-     *
-     * @param \eZ\Publish\API\Repository\Values\Content\Query\Criterion $criterion
-     *
-     * @return int
-     */
-    public function getLocationCount( Criterion $criterion )
-    {
-        $match = $excludeMatch = array();
-        $this->convertCriteria( $criterion, $match, $excludeMatch );
-
-        if ( $match === false )
-        {
-            return 0;
-        }
-
-        return $this->backend->count(
-            'Content\\Location',
-            $match,
-            $excludeMatch
-        );
-    }
-
     public function convertCriteria( Criterion $criterion, array &$match, array &$excludeMatch )
     {
         foreach ( $this->criterionHandlers as $criterionHandler )
@@ -132,5 +108,4 @@ class LocationSearchHandler implements LocationSearchHandlerInterface
             }
         }
     }
-
 }
