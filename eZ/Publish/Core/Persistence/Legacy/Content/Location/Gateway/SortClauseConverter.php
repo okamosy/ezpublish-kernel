@@ -103,11 +103,10 @@ class SortClauseConverter
      * Apply order by parts of sort clauses to query
      *
      * @param \ezcQuerySelect $query
-     * @param array $sortClauses
      *
      * @return void
      */
-    public function applyOrderBy( ezcQuerySelect $query, array $sortClauses )
+    public function applyOrderBy( ezcQuerySelect $query )
     {
         foreach ( $this->sortColumns as $column => $direction )
         {
